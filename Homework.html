@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A student portfolio for Lim Mengsoeu, with personal information, education, and interests.">
+    <title>Homework</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #172b4d;
+            --muted: #64748b;
+            --blue: #2457a7;
+            --blue-dark: #153665;
+            --mint: #d7f4ec;
+            --paper: #ffffff;
+            --line: #e2eaf3;
+            --background: #f3f7fc;
+            --shadow: 0 18px 45px rgba(24, 53, 91, 0.09);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 8% 18%, rgba(215, 244, 236, 0.65), transparent 25rem),
+                var(--background);
+            color: var(--ink);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .site-header {
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78)),
+                url("images/Pusheen-Pusheen-The-Cat-Wall-Poster-22-375-x-34-Framed_0e3bc021-40d8-4305-af59-76ec7f5cfa3e.b9ef6dd449c8cb79f9837596849cc0d9.avif")
+                center 45% / cover no-repeat;
+            border-bottom: 1px solid rgba(226, 234, 243, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-wrap {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            margin: 0 auto;
+            max-width: 1080px;
+            min-height: 72px;
+            padding: 12px 24px;
+        }
+
+        .brand {
+            color: var(--blue-dark);
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-decoration: none;
+        }
+
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .navbar a {
+            border-radius: 999px;
+            color: #40536d;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 8px 13px;
+            text-decoration: none;
+            transition: background-color 160ms ease, color 160ms ease;
+        }
+
+        .navbar a:hover,
+        .navbar a:focus-visible {
+            background: #eaf1fb;
+            color: var(--blue);
+        }
+
+        main {
+            margin: 0 auto;
+            max-width: 1000px;
+            padding: 38px 24px 64px;
+        }
+
+        .hero {
+            background: linear-gradient(125deg, var(--blue-dark), #2864a6);
+            border-radius: 24px;
+            box-shadow: 0 22px 48px rgba(21, 54, 101, 0.2);
+            color: var(--paper);
+            margin-bottom: 26px;
+            overflow: hidden;
+            padding: 48px;
+            position: relative;
+        }
+
+        .hero::after {
+            background: rgba(215, 244, 236, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            content: "";
+            height: 260px;
+            position: absolute;
+            right: -55px;
+            top: -95px;
+            width: 260px;
+        }
+
+        .eyebrow {
+            color: #bcefe1;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            margin: 0 0 10px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            letter-spacing: -0.035em;
+            line-height: 1.15;
+            margin: 0 0 14px;
+            max-width: 650px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p:last-child {
+            color: #e3edf8;
+            font-size: 17px;
+            margin: 0;
+            max-width: 620px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-card {
+            background: var(--paper);
+            border: 1px solid rgba(226, 234, 243, 0.9);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-top: 24px;
+            padding: 34px;
+            scroll-margin-top: 96px;
+        }
+
+        .section-heading {
+            align-items: center;
+            display: flex;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .section-number {
+            align-items: center;
+            background: var(--mint);
+            border-radius: 12px;
+            color: var(--blue-dark);
+            display: inline-flex;
+            flex: 0 0 42px;
+            font-size: 17px;
+            font-weight: 800;
+            height: 42px;
+            justify-content: center;
+        }
+
+        .section-heading h2 {
+            color: var(--blue-dark);
+            font-size: 27px;
+            letter-spacing: -0.025em;
+            line-height: 1.25;
+            margin: 0;
+        }
+
+        .personal-profile {
+            align-items: start;
+            display: grid;
+            gap: 22px;
+            grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+        }
+
+        .profile-photo {
+            aspect-ratio: 3 / 4;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            display: block;
+            object-fit: cover;
+            object-position: center top;
+            width: 100%;
+        }
+
+        .details-grid {
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin: 0;
+        }
+
+        .detail-item {
+            background: #f7f9fc;
+            border: 1px solid #edf1f6;
+            border-radius: 13px;
+            min-width: 0;
+            padding: 15px 17px;
+        }
+
+        .detail-item-wide {
+            grid-column: 1 / -1;
+        }
+
+        .detail-item dt {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .detail-item dd {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .education-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .school-card {
+            background: #fbfcfe;
+            border: 1px solid var(--line);
+            border-left: 4px solid #69bca5;
+            border-radius: 15px;
+            min-width: 0;
+            padding: 22px;
+        }
+
+        .school-name {
+            color: var(--blue-dark);
+            font-size: 21px;
+            line-height: 1.5;
+            margin: 0 0 16px;
+            padding-left: 22px;
+            position: relative;
+        }
+
+        .school-name::before {
+            background: #69bca5;
+            border-radius: 50%;
+            box-shadow: 0 0 0 5px rgba(215, 244, 236, 0.9);
+            content: "";
+            height: 12px;
+            left: 0;
+            position: absolute;
+            top: 0.55em;
+            width: 12px;
+        }
+
+        .school-name a {
+            border-bottom: 2px solid rgba(105, 188, 165, 0.65);
+            color: inherit;
+            display: inline-block;
+            padding-bottom: 4px;
+            text-decoration: none;
+            transition: border-color 160ms ease, color 160ms ease;
+        }
+
+        .school-name a:hover {
+            border-bottom-color: var(--blue);
+        }
+
+        .school-name a:focus-visible {
+            border-radius: 3px;
+            outline: 3px solid rgba(36, 87, 167, 0.3);
+            outline-offset: 4px;
+        }
+
+        .school-name-english {
+            color: var(--muted);
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .school-level {
+            color: #40536d;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            margin: 20px 0 10px;
+            text-transform: uppercase;
+        }
+
+        .school-years {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .school-years p {
+            background: #eaf1fb;
+            border-radius: 999px;
+            color: #344c70;
+            font-size: 14px;
+            margin: 0;
+            padding: 7px 13px;
+        }
+
+        .school-description {
+            color: #40536d;
+            font-size: 15px;
+            margin: 14px 0 0;
+        }
+
+        .school-photo {
+            background: #e8eef5;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            display: block;
+            height: 230px;
+            margin-top: 18px;
+            max-width: 100%;
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+        }
+
+        .school-photo-full {
+            height: auto;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 400px;
+            object-fit: contain;
+        }
+
+        .interest-list {
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .interest-list li {
+            background: #f7f9fc;
+            border: 1px solid #edf1f6;
+            border-radius: 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: 160px;
+            padding: 20px;
+        }
+
+        .interest-number {
+            align-self: flex-start;
+            align-items: center;
+            background: var(--mint);
+            border-radius: 10px;
+            color: var(--blue-dark);
+            display: inline-flex;
+            font-size: 13px;
+            font-weight: 800;
+            height: 38px;
+            justify-content: center;
+            width: 38px;
+        }
+
+        .interest-list h3 {
+            color: var(--blue-dark);
+            font-size: 17px;
+            line-height: 1.35;
+            margin: 0 0 5px;
+        }
+
+        .interest-list p {
+            color: #40536d;
+            font-size: 15px;
+            margin: 0;
+        }
+
+        footer {
+            color: var(--muted);
+            font-size: 13px;
+            padding: 0 24px 30px;
+            text-align: center;
+        }
+
+        @media (max-width: 640px) {
+            .nav-wrap {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 8px;
+                padding: 12px 18px;
+            }
+
+            .navbar {
+                gap: 2px;
+                margin-left: -10px;
+            }
+
+            .navbar a {
+                font-size: 13px;
+                padding: 7px 10px;
+            }
+
+            main {
+                padding: 22px 16px 42px;
+            }
+
+            .hero {
+                border-radius: 18px;
+                padding: 34px 25px;
+            }
+
+            .section-card {
+                border-radius: 17px;
+                padding: 24px 20px;
+            }
+
+            .section-heading h2 {
+                font-size: 23px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .personal-profile {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-photo {
+                margin: 0 auto;
+                max-width: 240px;
+            }
+
+            .school-card {
+                padding: 18px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .navbar a,
+            .school-name a {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-wrap">
+            <a class="brand" href="#top">MY PORTFOLIO</a>
+            <nav class="navbar" aria-label="Main navigation">
+                <a href="#personal-information">Personal Information</a>
+                <a href="#education">Education</a>
+                <a href="#interests">Interests</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="hero" aria-labelledby="page-title">
+            <p class="eyebrow">Student Portfolio</p>
+            <h1 id="page-title">Hello, I'm Lim Mengsoeu.</h1>
+            <p>A little about me, my education, and the things I enjoy learning.</p>
+        </section>
+
+        <section class="section-card" id="personal-information" aria-labelledby="personal-title">
+            <div class="section-heading">
+                <span class="section-number" aria-hidden="true">01</span>
+                <h2 id="personal-title">Personal Information</h2>
+            </div>
+            <div class="personal-profile">
+                <img
+                    class="profile-photo"
+                    src="images/photo_2026-11-17_18-32-10.jpg"
+                    alt="Portrait of Lim Mengsoeu"
+                >
+                <dl class="details-grid">
+                    <div class="detail-item">
+                        <dt>Name (Khmer)</dt>
+                        <dd>លីម ម៉េងសុឺ</dd>
+                    </div>
+                    <div class="detail-item">
+                        <dt>Name</dt>
+                        <dd>Lim Mengsoeu</dd>
+                    </div>
+                    <div class="detail-item">
+                        <dt>Age</dt>
+                        <dd>18</dd>
+                    </div>
+                    <div class="detail-item">
+                        <dt>Date of Birth</dt>
+                        <dd>2008-09-10</dd>
+                    </div>
+                    <div class="detail-item">
+                        <dt>tel</dt>
+                        <dd>092913728</dd>
+                    </div>
+                    <div class="detail-item">
+                        <dt>Email</dt>
+                        <dd>soeulim5@gmail.com</dd>
+                    </div>
+                    <div class="detail-item detail-item-wide">
+                        <dt>Goal</dt>
+                        <dd>Become a software developer</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+
+        <section class="section-card" id="education" aria-labelledby="education-title">
+            <div class="section-heading">
+                <span class="section-number" aria-hidden="true">02</span>
+                <h2 id="education-title">Education</h2>
+            </div>
+            <div class="education-list">
+                <article class="school-card">
+                    <h3 class="school-name">
+                        <a href="https://www.facebook.com/share/1FTorrxptP/" target="_blank" rel="noopener noreferrer">
+                            បឋមសិក្សាអនុវត្តគរុកោសល្យ
+                            <span class="school-name-english">Aknouwat Korouksal Primary School</span>
+                        </a>
+                    </h3>
+                    <h4 class="school-level">Primary School</h4>
+                    <div class="school-years">
+                        <p><strong>Started:</strong> 2014</p>
+                        <p><strong>Finished:</strong> 2020</p>
+                    </div>
+                    <p class="school-description">
+                        I began my primary education at this school in 2014 and completed it in 2020.
+                        This experience provided an important foundation for my continued learning
+                        and future academic goals.
+                    </p>
+                    <img
+                        class="school-photo"
+                        src="images/photo_2026-11-14_16-01-14.jpg"
+                        alt="Photo of Aknouwat Korouksal Primary School"
+                        loading="lazy"
+                    >
+                </article>
+
+                <article class="school-card">
+                    <h3 class="school-name">
+                        <a href="https://www.facebook.com/share/1AJdcJFDVe/" target="_blank" rel="noopener noreferrer">
+                            វិទ្យាល័យហ៊ុនសែនសៀមរាប
+                            <span class="school-name-english">Hun Sen Siem Reap High School</span>
+                        </a>
+                    </h3>
+                    <h4 class="school-level">Secondary School</h4>
+                    <div class="school-years">
+                        <p><strong>Started:</strong> 2021</p>
+                        <p><strong>Ended:</strong> 2023</p>
+                    </div>
+                    <p class="school-description">
+                        I attended this secondary school from 2021 to 2023, continuing my education
+                        and building a strong foundation for my future studies and career goals.
+                    </p>
+                    <h4 class="school-level">High School</h4>
+                    <div class="school-years">
+                        <p><strong>Started:</strong> 2024</p>
+                        <p><strong>Ended:</strong> 2026</p>
+                    </div>
+                    <p class="school-description">
+                        I continued my education at the same school for high school from 2024 to 2026,
+                        further developing my knowledge and preparing for my future studies.
+                    </p>
+                    <img
+                        class="school-photo"
+                        src="images/photo_2026-11-14_16-01-25.jpg"
+                        alt="Photo of Hun Sen Siem Reap High School"
+                        loading="lazy"
+                    >
+                </article>
+
+                <article class="school-card">
+                    <h3 class="school-name">
+                        <a href="https://www.ntti.edu.kh/" target="_blank" rel="noopener noreferrer">
+                            វិទ្យាស្ថានជាតិបណ្ដុះបណ្ដាលបច្ចេកទេស
+                            <span class="school-name-english">National Technical Training Institute (NTTI)</span>
+                        </a>
+                    </h3>
+                    <h4 class="school-level">University</h4>
+                    <div class="school-years">
+                        <p><strong>Started:</strong> 2026</p>
+                        <p><strong>Status:</strong> Currently studying</p>
+                    </div>
+                    <p class="school-description">
+                        I recently began studying coding at the National Technical Training Institute,
+                        where I am developing the skills I need to pursue a career as a software developer.
+                    </p>
+                    <img
+                        class="school-photo school-photo-full"
+                        src="images/photo_2026-11-16_13-46-38.jpg"
+                        alt="National Technical Training Institute building"
+                        loading="lazy"
+                    >
+                </article>
+            </div>
+        </section>
+
+        <section class="section-card" id="interests" aria-labelledby="interests-title">
+            <div class="section-heading">
+                <span class="section-number" aria-hidden="true">03</span>
+                <h2 id="interests-title">Interests</h2>
+            </div>
+            <ul class="interest-list">
+                <li>
+                    <span class="interest-number" aria-hidden="true">01</span>
+                    <div>
+                        <h3>Gaming</h3>
+                        <p>Playing video games in my free time.</p>
+                </li>
+                <li>
+                    <span class="interest-number" aria-hidden="true">02</span>
+                    <div>
+                        <h3>Watching videos</h3>
+                        <p>I watch video when I'm free or have nothing to do.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="interest-number" aria-hidden="true">03</span>
+                    <div>
+                        <h3>Programming</h3>
+                        <p>Learning new programming languages and understanding how they work. I enjoy building small projects and turning my ideas into something that runs on a screen.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>Homework</footer>
+</body>
+</html>
